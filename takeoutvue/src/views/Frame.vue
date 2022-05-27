@@ -11,23 +11,23 @@
 		<van-tabs v-model:active="active" type="none"  >
 			 <van-tab> <Home /> </van-tab>
 			<van-tab>
-				<button @click="test">登录</button>
+                <Card />
 			</van-tab>
 			<van-tab> <Order /></van-tab>
 			<van-tab> <User /> </van-tab>
 		</van-tabs >
-
 	</div>
 </template>
 
 <script>
-import Home from '@/views/Home/Home.vue'
-import Order from '@/views/Order/Order.vue'
-import User from '@/views/User/User.vue'
+import Home from '../views/Home/Home.vue'
+import Order from '../views/Order/Order.vue'
+import User from '../views/User/User.vue'
+import Card from "../views/Card/Card";
 
 export default{
 	name: 'Frame',
-	components: {Home,Order,User},
+	components: {Card, Home,Order,User},
 	data(){
 		return{
 			active: 0,

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.takeout.mapper.UserMapper">
+    <resultMap type="com.takeout.entity.User" id="UserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
+        <result property="account" column="account" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="age" column="age" jdbcType="TIMESTAMP"/>
+        <result property="headImg" column="head_img" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createDate" column="create_date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserMap">
+        select id,
+               nick_name,
+               account,
+               password,
+               email,
+               phone,
+               age,
+               head_img,
+               sex,
+               status,
+               create_date
+        from user
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserMap">
+        select
+        id, nick_name, account, password, email, phone, age, head_img, sex, status, create_date
+        from user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="nickName != null and nickName != ''">
+                and nick_name = #{nickName}
+            </if>
+            <if test="account != null and account != ''">
+                and account = #{account}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+            <if test="age != null">
+                and age = #{age}
+            </if>
+            <if test="headImg != null and headImg != ''">
+                and head_img = #{headImg}
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createDate != null">
+                and create_date = #{createDate}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="nickName != null and nickName != ''">
+                and nick_name = #{nickName}
+            </if>
+            <if test="account != null and account != ''">
+                and account = #{account}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+            <if test="age != null">
+                and age = #{age}
+            </if>
+            <if test="headImg != null and headImg != ''">
+                and head_img = #{headImg}
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createDate != null">
+                and create_date = #{createDate}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="signup" keyProperty="id" useGeneratedKeys="true">
+        insert into user(nick_name, account, password, email, head_img)
+        values (#{nickName}, #{account}, #{password}, #{email}, #{headImg})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into user(nick_name, account, password, email, phone, age, head_img, sex, status, create_date)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.nickName}, #{entity.account}, #{entity.password}, #{entity.email}, #{entity.phone}, #{entity.age},
+            #{entity.headImg}, #{entity.sex}, #{entity.status}, #{entity.createDate})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into user(nick_name, account, password, email, phone, age, head_img, sex, status, create_date)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.nickName}, #{entity.account}, #{entity.password}, #{entity.email}, #{entity.phone}, #{entity.age},
+            #{entity.headImg}, #{entity.sex}, #{entity.status}, #{entity.createDate})
+        </foreach>
+        on duplicate key update
+        nick_name = values(nick_name),
+        account = values(account),
+        password = values(password),
+        email = values(email),
+        phone = values(phone),
+        age = values(age),
+        head_img = values(head_img),
+        sex = values(sex),
+        status = values(status),
+        create_date = values(create_date)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update user
+        <set>
+            <if test="nickName != null and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+            <if test="account != null and account != ''">
+                account = #{account},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="headImg != null and headImg != ''">
+                head_img = #{headImg},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from user
+        where id = #{id}
+    </delete>
+
+</mapper>
+
