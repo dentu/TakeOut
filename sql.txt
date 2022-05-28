@@ -2,5 +2,6 @@ create database takeout;
 use takeout;
 create table user
 (
- id int primary key  
+ id int primary key,
+ account varchar(20) not null comment '帐号'   
 )
