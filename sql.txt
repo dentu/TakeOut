@@ -1,7 +1,17 @@
 create database takeout;
 use takeout;
+# 用户
 create table user
 (
- id int primary key,
- account varchar(20) not null comment '帐号'   
-)
+    id int primary key auto_increment comment '编号',
+    nick_name varchar(10) not null comment '昵称',
+    account varchar(10) not null comment '帐号',
+    password varchar(15) not null comment '密码',
+    email varchar(20) not null comment '邮箱',
+    phone varchar(11) comment '手机号',
+    age datetime default current_timestamp comment '年龄',
+    head_img varchar(50) comment '头像',
+    sex char(4) default '男' comment '性别',
+    status int default 0 comment '帐号状态',
+    create_date datetime default current_timestamp comment '创建时间'
+) engine = InnoDB;
