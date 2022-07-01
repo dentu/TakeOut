@@ -27,6 +27,9 @@
 </template>
 
 <script>
+import api from "@/util/api";
+import {Dialog, Toast} from 'vant';
+
 export default {
     name: "InputEmail",
     data(){
@@ -41,7 +44,29 @@ export default {
     },
     methods:{
         sendCode(){ // 发送验证码
-            this.time = 60;
+            if (this.email == null || this.email == ""){
+                Toast.fail("请输入邮箱")
+                return
+            }
+            this.showDisabled = true;
+            this.startCountDown()
+            api.post('/code',8012,{email:this.email},'form').then(ret =>{
+                Toast.fail(ret.message);
+            }).catch(error => {
+                Toast.fail(error);
+            })
+        },
+        startCountDown(){ // 验证码倒计时
+            this.time = 60; // 设置再次发送验证码时间
+            const timer = setInterval(()=>{
+                this.time --;
+                if (this.time <= 0)
+                {
+                    clearInterval(timer)
+                    this.showDisabled = false;
+                    this.time = ""
+                }
+            },1000)
         }
     }
 }

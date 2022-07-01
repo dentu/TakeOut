@@ -9,10 +9,28 @@ spring:
     url: jdbc:mysql://localhost:3306/takeout?useUnicode=true&charactor=UTF-8&serverTimeZone=Asia/Shanghai
     username: root
     password: root
+  mail:
+    host: smtp.qq.com
+    username: 1321458717@qq.com
+    password: yyhfauzfyrssbade
+    from: 1321458717@qq.com
+    port: 465
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            enable: true
+  redis:
+    host: localhost
+    port: 6379
 
 
 # mybatis
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    type-aliases-package: com.tool.entity
+    type-aliases-package: com.takeout.entity
+

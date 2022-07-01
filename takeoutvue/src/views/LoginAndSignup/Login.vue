@@ -43,14 +43,15 @@
 
 <script>
 import {Dialog, Toast} from 'vant';
+import api from "@/util/api";
 	export default{
 		name: "Login",
 		data(){
 			return{
 				value: "",
 				userdata:{
-					account:"123",
-					password:"321",
+					account:"100000",
+					password:"1433223",
 				},
                 ToastLoading: true,
 			}
@@ -64,13 +65,21 @@ import {Dialog, Toast} from 'vant';
                 Toast.loading({
                     duration: 0,
                     message: '登录中...',
-                    forbidClick: true
+                    forbidClick: this.ToastLoading
                 })
-                setTimeout(function (){
-                    this.ToastLoading = false
-                    that.$router.push("/")
-                    Toast.clear(); // 关闭加载动画
-                },3000)
+                api.post('/login',8012,this.userdata,'form').then(ret =>{
+                    Toast.success(ret.message)
+                    this.$router.push("/")
+                }).catch(error =>{
+                    if (error == "" || error == null){
+                        Toast.fail("登录出错");
+                    }else {
+                        Toast.fail(error);
+                    }
+
+                }).finally(()=>{
+                    Toast.clear(); // 关闭登录加载动画
+                })
 			},
 			onInput(value) {
 				this.userdata.account += value

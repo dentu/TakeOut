@@ -19,8 +19,8 @@ public interface UserMapper
      * @return
      */
     @Select("select * from user where " +
-            "account = #{accounr} and password =# {password} or " +
-            "email = #{account} and password = # {password}")
+            "account = #{account} and password = #{password} " +
+            "or email = #{account} and password = #{password}")
     User login(@Param("account") String account, @Param("password") String password);
 
     /**
