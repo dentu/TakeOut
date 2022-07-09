@@ -98,7 +98,7 @@ public class UserController
         {
             return ApiResponseData.createError(400,"邮箱已被注册");
         }
-        userService.signup(user);
+//        userService.signup(user);
         return data.setCode(200).setMessage("注册成功");
     }
     // 验证验证码
